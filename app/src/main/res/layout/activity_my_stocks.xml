@@ -12,6 +12,13 @@
       android:layout_height="match_parent"
       />
 
+  <TextView
+      android:id="@+id/empty_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:textColor="@android:color/white"
+      android:text="@string/empty_view_hint"/>
+
   <com.melnykov.fab.FloatingActionButton
       android:id="@+id/fab"
       android:layout_width="wrap_content"

@@ -8,7 +8,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +19,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -76,7 +76,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mContext = this;
-    Uri contentUri = getIntent() != null ? getIntent().getData() : null;
 
     if(findViewById(R.id.line_graph_container) != null){
       mTwoPane = true;
@@ -99,16 +98,19 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     setContentView(R.layout.activity_my_stocks);
     // The intent service is for executing immediate pulls from the Yahoo API
     // GCMTaskService can only schedule tasks, they cannot execute immediately
+
     mServiceIntent = new Intent(this, StockIntentService.class);
     if (savedInstanceState == null){
       // Run the initialize task service so that some stocks appear upon an empty database
       mServiceIntent.putExtra("tag", "init");
       if (isConnected){
+        //emptyView.setVisibility(View.INVISIBLE);
         startService(mServiceIntent);
       } else{
         networkToast();
       }
     }
+
     RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
@@ -162,6 +164,14 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
             }));
     recyclerView.setAdapter(mCursorAdapter);
 
+    // handle Views when there is no connection
+//    if (isConnected) {
+//      recyclerView.setVisibility(View.VISIBLE);
+//      emptyView.setVisibility(View.GONE);
+//    } else {
+//      recyclerView.setVisibility(View.GONE);
+//      emptyView.setVisibility(View.VISIBLE);
+//    }
 
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
     fab.attachToRecyclerView(recyclerView);
@@ -307,6 +317,13 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     //notify detail widget
     Intent dataUpdatedIntent = new Intent(StockTaskService.ACTION_DATA_UPDATED).setPackage(getPackageName());
     mContext.sendBroadcast(dataUpdatedIntent);
+    
+    TextView emptyView = (TextView)findViewById(R.id.empty_view);
+    if(data.getCount() == 0){
+      emptyView.setVisibility(View.VISIBLE);
+    }else{
+      emptyView.setVisibility(View.GONE);
+    }
   }
 
   @Override
