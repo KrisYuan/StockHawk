@@ -123,6 +123,19 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                 int symbolIndex = mCursor.getColumnIndex("symbol");
                 String sendSymbol = mCursor.getString(symbolIndex);
 
+                //set content description
+                TextView symbolTextView = (TextView) findViewById(R.id.stock_symbol);
+                String symbol = symbolTextView.getText().toString();
+                symbolTextView.setContentDescription(getString(R.string.a11y_symbol, symbol));
+
+                TextView bidTextView = (TextView) findViewById(R.id.bid_price);
+                String bidPrice = bidTextView.getText().toString();
+                bidTextView.setContentDescription(getString(R.string.a11y_symbol, bidPrice));
+
+                TextView changeTextView = (TextView) findViewById(R.id.change);
+                String change = changeTextView.getText().toString();
+                changeTextView.setContentDescription(getString(R.string.a11y_symbol, change));
+
                 String selection = QuoteHistoryColumns.SYMBOL + " = ? AND " + QuoteHistoryColumns.ISCURRENT + " = ? ";
                 String sortOrder = QuoteHistoryColumns.DATE + " ASC ";
                 Cursor mQueryCursor = getContentResolver().query(QuoteProvider.QuotesHistory.CONTENT_URI,

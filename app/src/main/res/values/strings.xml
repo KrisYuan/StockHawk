@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/tools">
     <string name="app_name">Stock Hawk</string>
 
     <string name="action_example">Example action</string>
@@ -15,4 +15,10 @@
     <string name="quote_widget_detail">Quote Details</string>
     <string name="empty_quote_list">No stock price available.</string>
     <string name="empty_view_hint">Failed to fetch stock price. Please check you network!</string>
+
+    <!-- Accessibility -->
+    <string name="a11y_fab" translatable="true">Click to add a new stock ticker to the list</string>
+    <string name="a11y_symbol" translatable="true">Stock Ticker Symbol is: <xliff:g id="symbol">%1$s</xliff:g> </string>
+    <string name="a11y_quote" translatable="true">The current bid is: <xliff:g id="bid">%2$s</xliff:g>   </string>
+    <string name="a11y_change" translatable="true">The change in the current bid is: <xliff:g id="change">%1$s</xliff:g> </string>
 </resources>
