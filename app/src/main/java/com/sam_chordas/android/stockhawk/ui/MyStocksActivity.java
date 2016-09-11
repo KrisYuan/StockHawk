@@ -317,7 +317,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     //notify detail widget
     Intent dataUpdatedIntent = new Intent(StockTaskService.ACTION_DATA_UPDATED).setPackage(getPackageName());
     mContext.sendBroadcast(dataUpdatedIntent);
-    
+
     TextView emptyView = (TextView)findViewById(R.id.empty_view);
     if(data.getCount() == 0){
       emptyView.setVisibility(View.VISIBLE);
