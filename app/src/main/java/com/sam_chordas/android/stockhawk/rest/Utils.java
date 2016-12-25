@@ -61,7 +61,12 @@ public class Utils {
     }
 
     public static String truncateBidPrice(String bidPrice) {
-        bidPrice = String.format("%.2f", Float.parseFloat(bidPrice));
+        try {
+            bidPrice = String.format("%.2f", Float.parseFloat(bidPrice));
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            EventBus.getDefault().post(new QueryEvent("The bid is null!"));
+        }
         return bidPrice;
     }
 
@@ -101,6 +106,9 @@ public class Utils {
 
         } catch (JSONException e) {
             e.printStackTrace();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            EventBus.getDefault().post(new QueryEvent("Some values are invalid!"));
         }
         return builder.build();
     }
